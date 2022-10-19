@@ -37,7 +37,56 @@ site_header();
         <div class="courses-area section-padding40 fix">
             <div class="container">
 
-       
+            
+            
+                    <div class="col-12 ">
+            <h2 class="contact-title">Add a course</h2>
+              </div>
+        
+        <div class="col-lg-10 ">
+            <form class="form-contact contact_form" action="<?php echo $_SERVER['PHP_SELF']."?type=2"; ?>" enctype="multipart/form-data" method="post" id="courseForm" novalidate="novalidate">
+                <div class="row">
+                    <?php
+                    add_courses();
+                    if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                        $subject = $_POST['subject'];  
+                        $message = $_POST['message'];
+                        $price =  $_POST['price'];
+                        
+                        //echo $message  . "  & " .  $subject  ." <br>" ;
+                        $con =  connection();
+                            //to prevent from mysqli injection  
+                             $message  = stripcslashes($message );  
+                             $subject  = stripcslashes( $subject );  
+                             $message  = mysqli_real_escape_string($con, $message );  
+                             $subject  = mysqli_real_escape_string($con,  $subject );
+                             $target_dir = "assets/img/gallery/";
+                             $target_file = $target_dir . basename($_FILES["inputGroupFile01"]["name"]);
+                             //$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                             if (move_uploaded_file($_FILES["inputGroupFile01"]["tmp_name"], $target_file)) {
+                                $alert=" The file ". htmlspecialchars( basename( $_FILES["inputGroupFile01"]["name"])). " has been uploaded.";
+                                echo "<script> alert('".$alert."');</script>";
+                             }
+                             else {
+                                echo "<script> alert('not successful upload . ');</script>";
+                            }
+                             
+                             //echo  " <br>".$_FILES["inputGroupFile01"]["name"] . " <br>";
+                             $img_name = $_FILES["inputGroupFile01"]["name"];
+                            
+                            $sql = " INSERT INTO subject (image_url, title, description, price) VALUES ('$img_name', '$subject' , '$message','$price') ";  
+                            //echo " <br>".$sql;
+                            
+                            if (mysqli_query($con, $sql)) {
+                                echo "<script> alert('New record created successfully.');</script>";
+                            } else {
+                                echo "Error: " . $sql . "<br>" . mysqli_error($con);
+                            }
+                            
+                            mysqli_close($con);
+                        }//if post
+                ?>
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-8">
                         <div class="section-tittle text-center mb-55">

@@ -28,9 +28,9 @@ header_rel();
        if($count == 1 ){  
         ///////////////////// 
          if($option == "student")
-           header('Location: courses.php?type=1');
+           header('Location: courses.php');
         else if ($option == "voulnteer")
-           header('Location: courses.php?type=2');
+           header('Location: courses_voluntary.php');
         else {
 
         }   

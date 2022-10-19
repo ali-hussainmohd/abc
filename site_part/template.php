@@ -20,7 +20,7 @@ function site_header(){
                        <div class="col-xl-10 col-lg-10">
                            <div class="menu-wrapper d-flex align-items-center justify-content-end">
                                <!-- Main-menu -->
-                               <div class="main-menu d-none d-lg-block">
+                               <div class="main-menu d-none d-lg-block ">
                                    {$nav}
                                </div>
                            </div>
@@ -49,44 +49,46 @@ function site_meun(){
         <li><a href="comment.php">Comment</a></li>
         <!-- Button -->
         <li class="button-header margin-left "><a href="#" class="btn">Join</a></li>
-        <li class="button-header"><a href="login.html" class="btn btn3">Log in</a></li>
+        <li class="button-header"><a href="login.php" class="btn btn3">Log in</a></li>
     </ul>
 </nav>';
 }
 
 function add_courses(){
-    $self_call = "<?php echo \$_SERVER['PHP_SELF']; ?>";
-
+    
     echo <<<html
-    <div class="col-12">
-    <h2 class="contact-title">Add a course</h2>
-</div>
-<div class="col-lg-12">
-    <form class="form-contact contact_form" action="{$self_call}" method="post" id="contactForm" novalidate="novalidate">
-        <div class="row">
-            <div class="col-12">
+    
+            
+           
+            <div class="col-6">
                 <div class="form-group">
-                    <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
+                    <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter course Subject">
+                </div>
+            </div>
+        
+
+        <div class="col-6">
+                <div class="form-group">
+                    <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter course description"></textarea>
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="form-group">
-                    <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
-                </div>
+            <div class="form-group">
+                <input class="form-control valid" name="price" id="price" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Coures price">
             </div>
         </div>
+
+            <div class="col-sm-6">
+             <div class=" custom-file">
+            <input type="file" class="custom-file-input" name="inputGroupFile01" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+          </div>
+        </div>
+        
+            
         <div class="form-group mt-3">
-            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+            <button type="submit" class="button button-contactForm boxed-btn">Add course</button>
+        </div>
         </div>
     </form>
 </div>
@@ -286,4 +288,43 @@ function header_rel(){
         </div>
     </div>
     <!-- Preloader Start-->';
+}
+
+function add_book(){
+    $self_call = "<?php echo \$_SERVER['PHP_SELF']; ?>";
+
+    echo <<<html
+    <div class="col-12">
+    <h2 class="contact-title">Add a course</h2>
+</div>
+<div class="col-lg-12">
+    <form class="form-contact contact_form" action="{$self_call}" method="post" id="courseForm" novalidate="novalidate">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+        </div>
+    </form>
+</div>
+html;
 }
