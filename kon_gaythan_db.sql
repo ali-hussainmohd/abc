@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2022 at 05:43 PM
+-- Generation Time: Oct 19, 2022 at 06:28 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -70,9 +70,22 @@ CREATE TABLE `add_request` (
 --
 
 CREATE TABLE `book` (
-  `book_num` int(50) NOT NULL,
-  `book_name` varchar(50) NOT NULL
+  `book_id` int(50) NOT NULL,
+  `book_name` text NOT NULL,
+  `book_description` text NOT NULL,
+  `book_image` text NOT NULL,
+  `book_price` int(11) NOT NULL,
+  `vol_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`book_id`, `book_name`, `book_description`, `book_image`, `book_price`, `vol_id`) VALUES
+(1, 'SEO 2020 Learn search engine optimization with smart internet marketing strategies', 'The author knows what he is talking about and gives many handy tips. He could improve the book by tackling the problem that maybe SEO is never going to work for your kind of Website because Google\'s algorithm is determined to downgrade it, so you would do well to look in other directions. ', 'SEO 2020 Learn search engine optimization with smart internet marketing strategies.jpg', 50, 2020100),
+(3, 'Domain Names For Dummies', 'Your guide through the domain name maze These days, every business or organization needs a Web presence. But how do you find and register a memorable Web address? In this easy-to-follow guide, a preeminent domain name services firm walks you through the ins and outs of the domain name game, from registering and trademarking a new name to buying or selling an existing site.\r\n', 'Domain Names For Dummies.jpg', 100, 2020100),
+(7, 'Java Concurrency in Practice', 'I was fortunate indeed to have worked with a fantastic team on the design and implementation of the concurrency features added to the Java platform in Java 5.0 and Java 6. Now this same team provides the best explanation yet of these new features, and of concurrency in general. Concurrency is no longer a subject for advanced users only. Every Java developer should read this book.\"\r\n--Martin Buchholz', 'Java Concurrency in Practice.jpg', 62, 2020100);
 
 -- --------------------------------------------------------
 
@@ -163,7 +176,8 @@ CREATE TABLE `subject` (
 INSERT INTO `subject` (`subject_id`, `image_url`, `title`, `description`, `price`) VALUES
 (7, 'featured1.png', 'Fundamental of UX for Application design 1', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 135),
 (8, 'featured2.png', 'Fundamental of UX for Application design 2', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 145),
-(9, 'featured3.png', 'Fundamental of UX for Application design 3', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 155);
+(9, 'featured3.png', 'Fundamental of UX for Application design 3', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 155),
+(12, 'DNS For Dummies.jpg', 'Fundamental of UX for Application design 4', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 60);
 
 -- --------------------------------------------------------
 
@@ -202,6 +216,7 @@ INSERT INTO `user` (`user_id`, `university_id`, `user_email`, `user_password`, `
 CREATE TABLE `voulnteer` (
   `vol_id` int(10) NOT NULL,
   `uni_id` int(11) NOT NULL,
+  `vol_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `college` varchar(50) NOT NULL,
   `major` varchar(50) NOT NULL
@@ -211,11 +226,11 @@ CREATE TABLE `voulnteer` (
 -- Dumping data for table `voulnteer`
 --
 
-INSERT INTO `voulnteer` (`vol_id`, `uni_id`, `pass`, `college`, `major`) VALUES
-(1, 2020100, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
-(2, 2020200, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
-(3, 2020300, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
-(4, 2020400, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce');
+INSERT INTO `voulnteer` (`vol_id`, `uni_id`, `vol_name`, `pass`, `college`, `major`) VALUES
+(1, 2020100, 'Marwa', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
+(2, 2020200, 'reem', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
+(3, 2020300, 'Shatha', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
+(4, 2020400, 'sara', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce');
 
 --
 -- Indexes for dumped tables
@@ -247,7 +262,8 @@ ALTER TABLE `add_request`
 -- Indexes for table `book`
 --
 ALTER TABLE `book`
-  ADD PRIMARY KEY (`book_num`);
+  ADD PRIMARY KEY (`book_id`),
+  ADD KEY `voluntary_link` (`vol_id`);
 
 --
 -- Indexes for table `comment`
@@ -323,7 +339,7 @@ ALTER TABLE `add_request`
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_num` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `book_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -353,7 +369,7 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -370,6 +386,12 @@ ALTER TABLE `voulnteer`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `book`
+--
+ALTER TABLE `book`
+  ADD CONSTRAINT `voluntary_link` FOREIGN KEY (`vol_id`) REFERENCES `voulnteer` (`uni_id`);
 
 --
 -- Constraints for table `user`
