@@ -70,6 +70,15 @@ site_header();
         <!-- Courses area start -->
         <div class="courses-area section-padding40 fix">
             <div class="container">
+            <!-- video start start -->
+
+            <div class="col-12 col-s-9">
+                <video  class="w-100" autoplay controls loop muted >
+                            <source src="assets/vid/entery-video.mp4" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                </video>
+            </div>
+            
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-8">
                         <div class="section-tittle text-center mb-55">

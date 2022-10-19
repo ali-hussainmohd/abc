@@ -17,7 +17,7 @@ site_header();
                         <div class="row">
                             <div class="col-xl-8 col-lg-11 col-md-12">
                                 <div class="hero__caption hero__caption2">
-                                    <h1 data-animation="bounceIn" data-delay="0.2s">Our courses</h1>
+                                    <h1 data-animation="bounceIn" data-delay="0.2s">Our Books</h1>
                                     <!-- breadcrumb Start-->
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
@@ -36,44 +36,16 @@ site_header();
         <!-- Courses area start -->
         <div class="courses-area section-padding40 fix">
             <div class="container">
-
-            <div class="row">
-            <div class="col-6 ">
-            <h2 class="contact-title">Add a course request</h2>
+            
+                    <div class="col-12 ">
+            <h2 class="contact-title">Add a book</h2>
               </div>
-        
-        <div class="col-lg-10 ">
+            <div class="col-lg-10 ">
             <form class="form-contact contact_form" action="<?php echo $_SERVER['PHP_SELF']."?type=2"; ?>" enctype="multipart/form-data" method="post" id="courseForm" novalidate="novalidate">
-                <div class="row form-row align-items-center">
-     <div class="col-6">
-            <div class="col-auto my-1 ">
-            <label class="mr-sm-2" for="inlineFormCustomSelect">Volunary</label>
-            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-              <option selected>Choose...</option>
-                <?php 
-                    $conn = connection();
-                    $sql = "SELECT * FROM voulnteer";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while($row = $result->fetch_assoc()) {
-                ?>
-           
-                        <option value="1"><?php echo $row["vol_name"]; ?> </option>
-                        <?php
-
-                        }//while
-                } else {
-                echo "0 results";
-                }
-                $conn->close(); ?>
-            </select>
-          </div>
-     </div>
-
+                <div class="row">
                     <?php
-                    add_requset();
+                    add_book();
+                    $voluntary_id= 2020100;
                     if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         $subject = $_POST['subject'];  
@@ -87,8 +59,9 @@ site_header();
                              $subject  = stripcslashes( $subject );  
                              $message  = mysqli_real_escape_string($con, $message );  
                              $subject  = mysqli_real_escape_string($con,  $subject );
-                             $target_dir = "assets/img/gallery/";
+                             $target_dir = "assets/img/books/";
                              $target_file = $target_dir . basename($_FILES["inputGroupFile01"]["name"]);
+                             
                              //$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                              if (move_uploaded_file($_FILES["inputGroupFile01"]["tmp_name"], $target_file)) {
                                 $alert=" The file ". htmlspecialchars( basename( $_FILES["inputGroupFile01"]["name"])). " has been uploaded.";
@@ -101,7 +74,7 @@ site_header();
                              //echo  " <br>".$_FILES["inputGroupFile01"]["name"] . " <br>";
                              $img_name = $_FILES["inputGroupFile01"]["name"];
                             
-                            $sql = " INSERT INTO subject (image_url, title, description, price) VALUES ('$img_name', '$subject' , '$message','$price') ";  
+                            $sql = " INSERT INTO book (book_image, book_name, book_description, book_price, vol_id ) VALUES ('$img_name', '$subject' , '$message','$price' , '$voluntary_id') ";  
                             //echo " <br>".$sql;
                             
                             if (mysqli_query($con, $sql)) {
@@ -113,11 +86,16 @@ site_header();
                             mysqli_close($con);
                         }//if post
                 ?>
-                </div>
+            
+
+            
+            
+               
+           
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-8">
                         <div class="section-tittle text-center mb-55">
-                            <h2>Our featured courses</h2>
+                            <h2>Our featured books</h2>
                         </div>
                     </div>
                 </div>
@@ -132,7 +110,7 @@ site_header();
                 <?php  
                 
                 $conn = connection();
-                $sql = "SELECT * FROM subject";
+                $sql = "SELECT * FROM book";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -144,12 +122,12 @@ site_header();
                      <div class="properties properties2 mb-30">
                          <div class="properties__card">
                              <div class="properties__img overlay1">
-                                 <a href="#"><img src="assets/img/gallery/<?php echo $row["image_url"]; ?>" alt=""></a>
+                                 <a href="#"><img src="assets/img/books/<?php echo $row["book_image"]; ?>" alt=""></a>
                              </div>
                              <div class="properties__caption">
                                  <p>User Experience</p>
-                                 <h3><a href="#"><?php echo $row["title"]; ?> </a></h3>
-                                 <p><?php echo $row["description"]; ?>
+                                 <h3><a href="#"><?php echo $row["book_name"]; ?> </a></h3>
+                                 <p><?php echo $row["book_description"]; ?>
                                  </p>
                                  <div class="properties__footer d-flex justify-content-between align-items-center">
                                      <div class="restaurant-name">
@@ -163,7 +141,7 @@ site_header();
                                          <p><span>(4.5)</span> based on 120</p>
                                      </div>
                                      <div class="price">
-                                         <span><?php echo $row["price"]; ?></span>
+                                         <span><?php echo $row["book_price"]; ?></span>
                                      </div>
                                  </div>
                                  <a href="#" class="border-btn border-btn2">Find out more</a>
