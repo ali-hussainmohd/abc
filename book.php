@@ -38,10 +38,7 @@ site_header();
             <div class="container">
 
             <?php  
-            if($_SERVER["REQUEST_METHOD"] == "GET"){
-                if($_GET['type'] == 2)
-                add_courses();
-            }
+
             
             
                
@@ -64,7 +61,7 @@ site_header();
                 <?php  
                 
                 $conn = connection();
-                $sql = "SELECT * FROM subject";
+                $sql = "SELECT * FROM book";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -76,12 +73,12 @@ site_header();
                      <div class="properties properties2 mb-30">
                          <div class="properties__card">
                              <div class="properties__img overlay1">
-                                 <a href="#"><img src="assets/img/gallery/<?php echo $row["image_url"]; ?>" alt=""></a>
+                                 <a href="#"><img src="assets/img/gallery/<?php echo $row["book_image"]; ?>" alt=""></a>
                              </div>
                              <div class="properties__caption">
                                  <p>User Experience</p>
-                                 <h3><a href="#"><?php echo $row["title"]; ?> </a></h3>
-                                 <p><?php echo $row["description"]; ?>
+                                 <h3><a href="#"><?php echo $row["book_name"]; ?> </a></h3>
+                                 <p><?php echo $row["book_description"]; ?>
                                  </p>
                                  <div class="properties__footer d-flex justify-content-between align-items-center">
                                      <div class="restaurant-name">
@@ -95,7 +92,7 @@ site_header();
                                          <p><span>(4.5)</span> based on 120</p>
                                      </div>
                                      <div class="price">
-                                         <span><?php echo $row["price"]; ?></span>
+                                         <span><?php echo $row["book_price"]; ?></span>
                                      </div>
                                  </div>
                                  <a href="#" class="border-btn border-btn2">Find out more</a>
