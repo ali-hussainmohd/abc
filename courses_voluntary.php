@@ -136,7 +136,7 @@ site_header();
                                          <p><span>(4.5)</span> based on 120</p>
                                      </div>
                                      <div class="price">
-                                         <span><?php echo $row["price"]; ?></span>
+                                         <span><?php //echo $row["price"]; ?></span>
                                      </div>
                                  </div>
                                  <a href="#" class="border-btn border-btn2">Find out more</a>

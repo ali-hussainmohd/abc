@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2022 at 06:28 PM
+-- Generation Time: Oct 22, 2022 at 09:52 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -166,18 +166,19 @@ CREATE TABLE `subject` (
   `image_url` text NOT NULL,
   `title` text NOT NULL,
   `description` text NOT NULL,
-  `price` int(11) NOT NULL
+  `vol_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `subject`
 --
 
-INSERT INTO `subject` (`subject_id`, `image_url`, `title`, `description`, `price`) VALUES
-(7, 'featured1.png', 'Fundamental of UX for Application design 1', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 135),
-(8, 'featured2.png', 'Fundamental of UX for Application design 2', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 145),
-(9, 'featured3.png', 'Fundamental of UX for Application design 3', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 155),
-(12, 'DNS For Dummies.jpg', 'Fundamental of UX for Application design 4', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 60);
+INSERT INTO `subject` (`subject_id`, `image_url`, `title`, `description`, `vol_id`) VALUES
+(7, 'featured1.png', 'Fundamental of UX for Application design 1', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 0),
+(8, 'featured2.png', 'Fundamental of UX for Application design 2', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 0),
+(9, 'featured3.png', 'Fundamental of UX for Application design 3', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 0),
+(12, 'DNS For Dummies.jpg', 'Fundamental of UX for Application design 4', 'The automated process all your website tasks. Discover tools and techniques to engage effectively with vulnerable children and young people.', 0),
+(13, 'how to win customer_.jpg', 'how to win customer ', 'Potential customers for your business are ready and waiting on social media but avoid the temptation to join every available platform and post the same information.\r\n\r\nSocial media can be time-consuming, so decide which platforms â€“ such as Facebook or Instagram â€“ are used by your customers and concentrate only on these.\r\n\r\nDirect sales messages can work, but you should spend time engaging your audience with interesting, educational or humorous content. You donâ€™t need big design budgets, either. Free services such as Canva and Unsplash can help you create professional-looking graphics.', 0);
 
 -- --------------------------------------------------------
 
@@ -218,19 +219,25 @@ CREATE TABLE `voulnteer` (
   `uni_id` int(11) NOT NULL,
   `vol_name` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
+  `Email` varchar(255) NOT NULL,
   `college` varchar(50) NOT NULL,
-  `major` varchar(50) NOT NULL
+  `yearOFcollage` varchar(255) NOT NULL,
+  `major` varchar(50) NOT NULL,
+  `subject` text NOT NULL,
+  `Timing` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `voulnteer`
 --
 
-INSERT INTO `voulnteer` (`vol_id`, `uni_id`, `vol_name`, `pass`, `college`, `major`) VALUES
-(1, 2020100, 'Marwa', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
-(2, 2020200, 'reem', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
-(3, 2020300, 'Shatha', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce'),
-(4, 2020400, 'sara', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce');
+INSERT INTO `voulnteer` (`vol_id`, `uni_id`, `vol_name`, `pass`, `Email`, `college`, `yearOFcollage`, `major`, `subject`, `Timing`) VALUES
+(1, 2020100, 'Marwa Moh\'d', 'e10adc3949ba59abbe56e057f20f883e', 'marwa@gmail.com', 'Information Technology', 'Sophomore', 'Computer Science', 'Java, math', '4pm to 6pm'),
+(2, 2020200, 'reem Khalad', 'e10adc3949ba59abbe56e057f20f883e', 'reem@gmail.com', 'Information Technology', 'Junior', 'Computer Science', 'web design, PHP ', '12pm to 2pm'),
+(3, 2020300, 'Shada waleed', 'e10adc3949ba59abbe56e057f20f883e', 'Shada@gmail.com', 'Information Technology', 'Junior', 'Computer Science', 'English', '1pm to 3pm'),
+(4, 2020400, 'sara Ali', 'e10adc3949ba59abbe56e057f20f883e', 'sara@gmail.com', 'Information Technology', 'Senior', 'Computer Science', 'math algebra, calculus', '8am to 10am'),
+(5, 2020121, 'Noora Ahmed', 'e10adc3949ba59abbe56e057f20f883e', 'Noora@gmail.com', 'Information Technology', 'Sophomore', 'Computer Science', 'Python, English', '10am to 12am'),
+(6, 2021125, 'maryam sameer Ahmed', '14e1b600b1fd579f47433b88e8d85291', 'maryam_25@gmail.com', 'Information Technology', 'junior', 'Computer Science', 'Arabic , English ', '6pm to 8pm');
 
 --
 -- Indexes for dumped tables
@@ -369,7 +376,7 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -381,7 +388,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `voulnteer`
 --
 ALTER TABLE `voulnteer`
-  MODIFY `vol_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `vol_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

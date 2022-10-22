@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require ("site_part/template.php");
 require ("functions/function.php");
 header_rel();
@@ -14,7 +14,8 @@ header_rel();
         //to prevent from mysqli injection  
         $username = stripcslashes($username);  
         $password = stripcslashes($password);  
-        $username = mysqli_real_escape_string($con, $username);  
+        $username = mysqli_real_escape_string($con, $username); 
+        $_SESSION["uni_id"]=$username;
         $password = mysqli_real_escape_string($con, $password);
         $password = md5($password);  
         
@@ -23,14 +24,14 @@ header_rel();
        $result = mysqli_query($con, $sql);  
        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
        $count = mysqli_num_rows($result); 
-     
+        
          
        if($count == 1 ){  
         ///////////////////// 
          if($option == "student")
            header('Location: courses.php');
         else if ($option == "voulnteer")
-           header('Location: courses_voluntary.php');
+           header('Location: voluntary_profile.php');
         else {
 
         }   

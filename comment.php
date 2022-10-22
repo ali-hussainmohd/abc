@@ -40,9 +40,19 @@ site_header();
                 <div class="col-12">
                     <h2 class="contact-title">Get in Touch</h2>
                 </div>
+               
+              
                 <div class="col-lg-12">
                     <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                        <div class="row">
+                        <div class="row"> 
+                             <div class="col-lg-12">
+                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                    <option selected>Choose...</option>
+                    <option value="1">complain</option>
+                    <option value="2">thanks</option>
+                    <option value="3">Three</option>
+                </select>
+                </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
