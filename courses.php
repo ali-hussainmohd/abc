@@ -106,16 +106,18 @@ site_header();
 
                 if ($result->num_rows > 0) {
                 // output data of each row
+                $count=1;
                 while($row = $result->fetch_assoc()) {
                     //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+                    
                     ?>
                      <div class="col-lg-4">
                      <div class="properties properties2 mb-30">
                          <div class="properties__card">
                              <div class="properties__img overlay1">
                                  <a href="#"><img 
-                                 src="https://img.freepik.com/premium-vector/set-persons-flat-human-face-profiles-flat-characters-avatar-people-heads-portraits-vector_167581-3171.jpg?w=740" 
-                                 alt="" style="object-fit:none; object-position: left top;  "></a>
+                                 src="assets/img/profile/profile_<?php echo $count++?>.png" 
+                                 alt="" width="180"  height ="180px" style="object-fit=cover;"> </a>
                              </div>
                              <div class="properties__caption">
                                  <p>User Experience</p>
@@ -123,7 +125,7 @@ site_header();
                                  <p><?php echo $row["subject"]; ?>
                                  </p>
                                  <div class="properties__footer d-flex justify-content-between align-items-center">
-                                     <div class="restaurant-name mb4">
+                                     <div class="restaurant-name ">
                                          <div class="rating">
                                              <i class="fas fa-star"></i>
                                              <i class="fas fa-star"></i>
@@ -132,19 +134,20 @@ site_header();
                                              <i class="fas fa-star-half"></i>
                                          </div>
                                          <p><span>(4.5)</span> based on 120</p>
+                                         <h2><span><?php echo $row["Email"]; ?></span></h2>
                                      </div>
                                      
-                                     <div class="price small mt4">
-                                         <span><?php echo $row["Email"]; ?></span>
-                                     </div>
                                  </div>
-                                 <a href="#" class="border-btn border-btn2">Ask a voluntary </a>
+                                 
+                                 <a href="#" class="border-btn border-btn2 mt4">Ask a voluntary </a>
                              </div>
                          </div>
                      </div>
                  </div>
 
                      <?php ;
+                     if($count == 7)
+                     {$count=1;}
                 }
                 } else {
                 echo "0 results";
