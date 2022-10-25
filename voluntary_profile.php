@@ -121,6 +121,7 @@ $conn->close();
         );
         $stm->execute();
     $conn->close();
+    //refresh page
     echo "<meta http-equiv='refresh' content='0'>";
  }
 

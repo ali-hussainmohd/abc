@@ -7,7 +7,7 @@ site_header();
 session_start();
 
 
-if(!isset($_SESSION["adminname"]) && !isset($_SESSION["adminpassword"])  )
+if(!isset($_SESSION["adminID"]) && !isset($_SESSION["adminpassword"])  )
 {
     header("Location: login.php");
 }
@@ -47,50 +47,62 @@ else
                     </div>
                 </section>
                 <!-- Courses area start -->
-
+                <div class="container">
+                <div class="col-xl-12 mt-4">
+                  <h1>Hello Admin <?php echo $_SESSION["adminname"]?></h1>
+                </div>
+                </div>
         <div class="courses-area section-padding40 fix">
             <div class="container">
-
+                  <div class="col-xl-12">
+                      <table class="table table-hover">
+           
                  <?php 
           if ($result->num_rows > 0) {
+
+            ?>
+             <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Student Name </th>
+                <th scope="col">Student Id</th>
+                <th scope="col">Email</th>
+                <th scope="col">College</th>
+                <th scope="col">Major</th>
+                <th scope="col">collage years</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Timing</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+            <?php
             // output data of each row
             $count=1;
-            echo $result->num_rows . 'br';
+           
             while($row = $result->fetch_assoc()) {
                 
                 ?>   
-            <div class="col-xl-10">
-            <table class="table table-hover">
-  <thead>
+    
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="row"><?php echo $count++?></th>
+      <td><?php echo $row['vol_name']?></td>
+      <td><?php echo $row['uni_id']?></td>
+      <td><?php echo $row['Email']?></td>
+      <td><?php echo $row['college']?></td>
+      <td><?php echo $row['major']?></td>
+      <td><?php echo $row['yearOFcollage']?></td>
+      <td><?php echo $row['subject']?></td>
+      <td><?php echo $row['Timing']?></td>        
+      <td>
+          <form action="" method="POST">
+          <button class="btn" value="<?php echo  $row['vol_id'] . "_" . $row['vol_name'] ?>" type="submit" name="vol_delete_btn"><i class="fa fa-trash"></i> Remove</button>
+           </form>
+      </td>
+    
     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-            </table>
-                </div>
-            </div>
+
            <?php 
             }//while
                     }//if
@@ -100,11 +112,19 @@ else
             }
             //////////////////////////////////book //////////////////////////////////
 
-            echo $result = 0 . '<br>';
+           
             ?>
+          </tbody>
+                    </table>
+                        </div>
+                    </div>
+
+
             <div class="courses-area section-padding40 fix">
             <div class="container">
             
+              <div class="col-xl-10">
+              <table class="table table-hover">
 
             <?php
 
@@ -112,59 +132,104 @@ else
             $result = $conn->query($sql);
            
             if ($result->num_rows > 0) {
-                echo $result->num_rows . 'br';
+                
+            ?>
+              <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Book image</th>
+                <th scope="col">Book name</th>
+                <th scope="col">Book description</th>
+                
+                <th scope="col">Voulnteer ID</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+            
+            
+            <?php
+
               // output data of each row
               $count=1;
               while($row = $result->fetch_assoc()) {
                   
                   ?>   
-              <div class="col-xl-10">
-              <table class="table table-hover">
-    <thead>
+
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">book</th>
+        <th scope="row"><?php echo $count++?></th>
+        <td><img src="assets/img/books/<?php echo $row['book_image']?>" height="150" ></td>
+        <td><?php echo $row['book_name']?></td>
+        <td><?php echo $row['book_description']?></td>
+        
+        <td><?php echo $row['vol_id']?></td>
+        <td>
+          <form action="" method="POST">
+          <button class="btn" value="<?php echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn"><i class="fa fa-trash"></i> Remove</button>
+           </form>
+      </td>
       </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-              </table>
-                  </div>
-              </div>
+
+   
              <?php 
               }//while
-                      }//if
+?>
+              <button class="btn" value="<?php echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn"><i class="fa fa-trash"></i> Add</button>
+                    
+            <?php
+            }//if
               else {
                   echo '<h1> No books found !</h1>';
               }
 
         $conn->close();
         ?>
+
+ </tbody>
+              </table>
+                  </div>
+              </div>
+
+
             </div>
  
 
             </main>
    
    <?php
+   if($_SERVER["REQUEST_METHOD"] == "POST"){
+      if(isset($_POST["vol_delete_btn"])){
+        $data=explode("_", $_POST["vol_delete_btn"]);
+        $conn = connection();
+        $sql = "DELETE  FROM voulnteer where vol_id = '".$data[0]."' ";
+        
+
+        if (mysqli_query($conn, $sql)) {
+
+          echo "<script> alert('".$data[1]."  Deleted successfully.');</script>";
+              //refresh page
+            echo "<meta http-equiv='refresh' content='0'>";
+      } else {
+          echo "Error: " . $sql . "<br>" . mysqli_error($con);
+      }
+        mysqli_close($conn);
+      }else if(isset($_POST["book_delete_btn"])){
+        $data=explode("_", $_POST["book_delete_btn"]);
+        $conn = connection();
+        $sql = "DELETE  FROM book where book_id = '".$data[0]."' ";
+        
+
+        if (mysqli_query($conn, $sql)) {
+
+          echo "<script> alert('".$data[1]."  Deleted successfully.');</script>";
+              //refresh page
+            echo "<meta http-equiv='refresh' content='0'>";
+      } else {
+          echo "Error: " . $sql . "<br>" . mysqli_error($con);
+      }
+        mysqli_close($conn);
+   }
+  }//if($_SERVER["REQUEST_METHOD"] == "POST")
 
 }//else 
 site_footer();

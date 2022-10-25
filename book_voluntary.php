@@ -50,7 +50,7 @@ site_header();
 
                         $subject = $_POST['subject'];  
                         $message = $_POST['message'];
-                        $price =  $_POST['price'];
+                       
                         
                         //echo $message  . "  & " .  $subject  ." <br>" ;
                         $con =  connection();
@@ -74,7 +74,7 @@ site_header();
                              //echo  " <br>".$_FILES["inputGroupFile01"]["name"] . " <br>";
                              $img_name = $_FILES["inputGroupFile01"]["name"];
                             
-                            $sql = " INSERT INTO book (book_image, book_name, book_description, book_price, vol_id ) VALUES ('$img_name', '$subject' , '$message','$price' , '$voluntary_id') ";  
+                            $sql = " INSERT INTO book (book_image, book_name, book_description,  vol_id ) VALUES ('$img_name', '$subject' , '$message' , '$voluntary_id') ";  
                             //echo " <br>".$sql;
                             
                             if (mysqli_query($con, $sql)) {

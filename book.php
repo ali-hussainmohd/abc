@@ -73,7 +73,7 @@ site_header();
                      <div class="properties properties2 mb-30">
                          <div class="properties__card">
                              <div class="properties__img overlay1">
-                                 <a href="#"><img src="assets/img/gallery/<?php echo $row["book_image"]; ?>" alt=""></a>
+                                 <a href="#"><img src="assets/img/books/<?php echo $row["book_image"]; ?>" alt=""></a>
                              </div>
                              <div class="properties__caption">
                                  <p>User Experience</p>
