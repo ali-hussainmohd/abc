@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2022 at 09:52 PM
+-- Generation Time: Oct 25, 2022 at 06:41 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -74,7 +74,6 @@ CREATE TABLE `book` (
   `book_name` text NOT NULL,
   `book_description` text NOT NULL,
   `book_image` text NOT NULL,
-  `book_price` int(11) NOT NULL,
   `vol_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -82,10 +81,9 @@ CREATE TABLE `book` (
 -- Dumping data for table `book`
 --
 
-INSERT INTO `book` (`book_id`, `book_name`, `book_description`, `book_image`, `book_price`, `vol_id`) VALUES
-(1, 'SEO 2020 Learn search engine optimization with smart internet marketing strategies', 'The author knows what he is talking about and gives many handy tips. He could improve the book by tackling the problem that maybe SEO is never going to work for your kind of Website because Google\'s algorithm is determined to downgrade it, so you would do well to look in other directions. ', 'SEO 2020 Learn search engine optimization with smart internet marketing strategies.jpg', 50, 2020100),
-(3, 'Domain Names For Dummies', 'Your guide through the domain name maze These days, every business or organization needs a Web presence. But how do you find and register a memorable Web address? In this easy-to-follow guide, a preeminent domain name services firm walks you through the ins and outs of the domain name game, from registering and trademarking a new name to buying or selling an existing site.\r\n', 'Domain Names For Dummies.jpg', 100, 2020100),
-(7, 'Java Concurrency in Practice', 'I was fortunate indeed to have worked with a fantastic team on the design and implementation of the concurrency features added to the Java platform in Java 5.0 and Java 6. Now this same team provides the best explanation yet of these new features, and of concurrency in general. Concurrency is no longer a subject for advanced users only. Every Java developer should read this book.\"\r\n--Martin Buchholz', 'Java Concurrency in Practice.jpg', 62, 2020100);
+INSERT INTO `book` (`book_id`, `book_name`, `book_description`, `book_image`, `vol_id`) VALUES
+(8, 'Introduction to Algorithms', 'The name of the book is self-explanatory. It is what the title suggests, i.e., Introduction to Algorithms. Also known as CLRS, a reference to the last name of the authors of the book, it goes in-depth into a range of algorithms divided across several self-contained chapters.', 'introduction-to-algorithms-eastern-economy-edition.jpg', 2020100),
+(9, 'Structure and Interpretation of Computer Programs (SICP)', 'Although SCIP is a must-have book for programmers, going through it will be a far better experience after, thoroughly, learning one or two programming languages. Of course, the book offers a solid programming foundation, and also deals with functional programming.', 'structure-and-interpretation-of-computer-programs-2nd-edition-mit-electrical-engineering-and-computer-science1.jpg', 2020100);
 
 -- --------------------------------------------------------
 
@@ -346,7 +344,7 @@ ALTER TABLE `add_request`
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `book_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -388,7 +386,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `voulnteer`
 --
 ALTER TABLE `voulnteer`
-  MODIFY `vol_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `vol_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
