@@ -22,7 +22,9 @@ header_rel();
         $username = stripcslashes($username);  
         $password = stripcslashes($password);  
         $username = mysqli_real_escape_string($con, $username); 
+
         $_SESSION["uni_id"]=$username;
+
         $password = mysqli_real_escape_string($con, $password);
         $password = md5($password);  
         
@@ -35,16 +37,18 @@ header_rel();
          
        if($count == 1 ){  
         ///////////////////// 
-         if($option == "student")
-           header('Location: courses.php');
-        else if ($option == "voulnteer")
+         if($option == "student"){
+          
+           header('Location: courses.php');}
+       else if ($option == "voulnteer")
+            //$_SESSION["role_id"]=$username;
            header('Location: voluntary_profile.php');
         else {
 
         }   
         /////////////////////////////
         
-       }  //if
+       }  //if($count == 1 
        else{  
           
          echo " <br>". "hello is noooooot work" . " <br>" ;

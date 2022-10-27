@@ -1,4 +1,5 @@
 <?php
+session_start();
 require ("site_part/template.php");
 require ("functions/function.php");
 header_rel();
@@ -39,48 +40,11 @@ site_header();
 
             <div class="row">
          
-     
+
 
                     <?php
                     
-                    if($_SERVER["REQUEST_METHOD"] == "POST") {
-
-                        $subject = $_POST['subject'];  
-                        $message = $_POST['message'];
-                        $price =  $_POST['price'];
-                        
-                        //echo $message  . "  & " .  $subject  ." <br>" ;
-                        $con =  connection();
-                            //to prevent from mysqli injection  
-                             $message  = stripcslashes($message );  
-                             $subject  = stripcslashes( $subject );  
-                             $message  = mysqli_real_escape_string($con, $message );  
-                             $subject  = mysqli_real_escape_string($con,  $subject );
-                             $target_dir = "assets/img/gallery/";
-                             $target_file = $target_dir . basename($_FILES["inputGroupFile01"]["name"]);
-                             //$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-                             if (move_uploaded_file($_FILES["inputGroupFile01"]["tmp_name"], $target_file)) {
-                                $alert=" The file ". htmlspecialchars( basename( $_FILES["inputGroupFile01"]["name"])). " has been uploaded.";
-                                echo "<script> alert('".$alert."');</script>";
-                             }
-                             else {
-                                echo "<script> alert('not successful upload . ');</script>";
-                            }
-                             
-                             //echo  " <br>".$_FILES["inputGroupFile01"]["name"] . " <br>";
-                             $img_name = $_FILES["inputGroupFile01"]["name"];
-                            
-                            $sql = " INSERT INTO subject (image_url, title, description, vol_id) VALUES ('$img_name', '$subject' , '$message','$price') ";  
-                            //echo " <br>".$sql;
-                            
-                            if (mysqli_query($con, $sql)) {
-                                echo "<script> alert('New record created successfully.');</script>";
-                            } else {
-                                echo "Error: " . $sql . "<br>" . mysqli_error($con);
-                            }
-                            
-                            mysqli_close($con);
-                        }//if post
+                    
                 ?>
                 </div>
                 <div class="row justify-content-center">
@@ -138,8 +102,17 @@ site_header();
                                      </div>
                                      
                                  </div>
+                                    <form method="post" action="">
+                                        <button class="border-btn border-btn2 mt4"
+                                                type="submit"; 
+                                                value="<?php echo $row["vol_id"].'_'.$row["vol_name"]; ?>" 
+                                                name="ask_btn">
+                                            Ask a voluntary
+                                        </button>
+
+                                    </form>
                                  
-                                 <a href="#" class="border-btn border-btn2 mt4">Ask a voluntary </a>
+                                 
                              </div>
                          </div>
                      </div>
@@ -148,15 +121,108 @@ site_header();
                      <?php ;
                      if($count == 7)
                      {$count=1;}
-                }
+                }//while
                 } else {
                 echo "0 results";
                 }
+                if(isset($_POST['ask_btn'])){
+                    $str_arr = explode ("_", $_POST['ask_btn']); 
+                    $data=array( $_SESSION["uni_id"],date("Y-m-d"));
+                    $sql = "insert INTO request (vol_id,vol_name, student_id, request_date ) VALUES( ?,?,?,?)";
+
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param(
+                        'dsds',
+                        $str_arr[0],
+                        $str_arr[1],
+                        $data[0],
+                        $data[1]);                                                                                 
+                    //$result = $conn->query($sql);
+                    //echo var_dump($data) . "<br>";
+                    if ($stmt->execute()) {
+                        echo '<script> alert("Order '.$str_arr[1].' created successfully")</script>';
+                        echo "<meta http-equiv='refresh' content='0'>";
+                      } else {
+                        echo '<script> alert("Error:  '. $conn->error.' ")</script>';
+                      }
+                    
+                }
                 $conn->close();
+                //////
                 
                 ?>
 
+                    <div class="container">
+                    <h2>Your Requst</h2>
+                               
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Voulnteer</th>
+                            <th>Status</th>
+                            <th>Action</th>
 
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php  
+                
+                $conn = connection();
+                $id_student=$_SESSION["uni_id"];
+                $sql = "SELECT * FROM request where student_id = '".$id_student."'";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                // output data of each row
+                $count=1;
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+                    
+                    ?>
+                        <tr>
+                            <td><?php echo $count++?></td>
+                            <td><?php echo $row["request_date"];?></td>
+                            <td><?php echo $row["vol_name"];?></td>
+                            <td><?php echo $row["status"];?></td> 
+                            <?php if($row["status"] == "accept")
+                            {
+                                ?>
+                            <td>
+                           
+                                <form action="" method="POST">
+                                    <button class="btn" value="<?php //echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn">
+                                    <i class="fas fa-comment-alt"></i> Chat
+                                    </button>
+                                </form>
+                            </td>
+                            <?php } else if($row["status"] == "reject")
+                            {
+                                ?>
+                            <td>                        
+                                <form action="" method="POST">
+                                    <button class="btn" value="<?php //echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn">
+                                    <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                </form>
+                            </td>
+                            <?php } else 
+                            { ?>
+                                    <td> 
+                                    <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                                    </td>        
+                                <?php } //else ?>
+                        </tr>
+
+
+                        <?php }//while
+                    }//if ($result->num_rows > 0)
+                    ?>
+
+                        </tbody>
+                    </table>
+                    </div>
  
  
   
