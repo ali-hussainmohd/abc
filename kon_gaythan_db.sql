@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2022 at 06:41 PM
+-- Generation Time: Oct 28, 2022 at 12:51 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -25,40 +25,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `add_book`
---
-
-CREATE TABLE `add_book` (
-  `book_num` int(50) NOT NULL,
-  `book_name` varchar(50) NOT NULL,
-  `std_id` int(10) NOT NULL,
-  `vol_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `add_comment`
 --
 
 CREATE TABLE `add_comment` (
   `com_num` int(10) NOT NULL,
   `com_script` text NOT NULL,
-  `std_id` int(10) NOT NULL,
-  `vol_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `add_request`
---
-
-CREATE TABLE `add_request` (
-  `req_num` int(10) NOT NULL,
-  `req_type` text NOT NULL,
-  `req_date` date NOT NULL,
-  `req_name` varchar(50) NOT NULL,
   `std_id` int(10) NOT NULL,
   `vol_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -103,11 +75,24 @@ CREATE TABLE `comment` (
 --
 
 CREATE TABLE `request` (
-  `req_num` int(10) NOT NULL,
-  `req_type` text NOT NULL,
-  `req_date` date NOT NULL,
-  `req_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL,
+  `vol_id` int(11) NOT NULL,
+  `vol_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `request_date` date NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `request`
+--
+
+INSERT INTO `request` (`id`, `vol_id`, `vol_name`, `student_id`, `request_date`, `status`) VALUES
+(11, 2, 'reem Khalad', 2020100, '2022-10-27', 'reject'),
+(13, 5, 'Noora Ahmed', 2020100, '2022-10-27', 'pending'),
+(14, 4, 'sara Ali', 2020100, '2022-10-27', 'pending'),
+(15, 3, 'Shada waleed', 2020100, '2022-10-27', 'accept'),
+(16, 1, 'Marwa Moh\'d', 2020100, '2022-10-27', 'pending');
 
 -- --------------------------------------------------------
 
@@ -242,26 +227,11 @@ INSERT INTO `voulnteer` (`vol_id`, `uni_id`, `vol_name`, `pass`, `Email`, `colle
 --
 
 --
--- Indexes for table `add_book`
---
-ALTER TABLE `add_book`
-  ADD PRIMARY KEY (`book_num`),
-  ADD KEY `std_id` (`std_id`,`vol_id`);
-
---
 -- Indexes for table `add_comment`
 --
 ALTER TABLE `add_comment`
   ADD PRIMARY KEY (`com_num`),
   ADD KEY `std_id` (`std_id`,`vol_id`);
-
---
--- Indexes for table `add_request`
---
-ALTER TABLE `add_request`
-  ADD PRIMARY KEY (`req_num`),
-  ADD KEY `std_id` (`std_id`),
-  ADD KEY `vol_id` (`vol_id`);
 
 --
 -- Indexes for table `book`
@@ -280,7 +250,9 @@ ALTER TABLE `comment`
 -- Indexes for table `request`
 --
 ALTER TABLE `request`
-  ADD PRIMARY KEY (`req_num`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `vol_id` (`vol_id`),
+  ADD KEY `request_student` (`student_id`);
 
 --
 -- Indexes for table `role_table`
@@ -323,22 +295,10 @@ ALTER TABLE `voulnteer`
 --
 
 --
--- AUTO_INCREMENT for table `add_book`
---
-ALTER TABLE `add_book`
-  MODIFY `book_num` int(50) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `add_comment`
 --
 ALTER TABLE `add_comment`
   MODIFY `com_num` int(10) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `add_request`
---
-ALTER TABLE `add_request`
-  MODIFY `req_num` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `book`
@@ -356,7 +316,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `req_num` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `role_table`
@@ -386,7 +346,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `voulnteer`
 --
 ALTER TABLE `voulnteer`
-  MODIFY `vol_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `vol_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -397,6 +357,13 @@ ALTER TABLE `voulnteer`
 --
 ALTER TABLE `book`
   ADD CONSTRAINT `voluntary_link` FOREIGN KEY (`vol_id`) REFERENCES `voulnteer` (`uni_id`);
+
+--
+-- Constraints for table `request`
+--
+ALTER TABLE `request`
+  ADD CONSTRAINT `request_student` FOREIGN KEY (`student_id`) REFERENCES `student` (`uni_id`),
+  ADD CONSTRAINT `request_vol` FOREIGN KEY (`vol_id`) REFERENCES `voulnteer` (`vol_id`);
 
 --
 -- Constraints for table `user`
