@@ -4,7 +4,6 @@ require ("functions/function.php");
 header_rel();
 site_header();
 
-session_start();
 
 
 if(!isset($_SESSION["adminID"]) && !isset($_SESSION["adminpassword"])  )
@@ -49,7 +48,7 @@ else
                 <!-- Courses area start -->
                 <div class="container">
                 <div class="col-xl-12 mt-4">
-                  <h1>Hello Admin <?php echo $_SESSION["adminname"]?></h1>
+                  <h1>Hello  <?php echo $_SESSION["name"]?></h1>
                 </div>
                 </div>
         <div class="courses-area section-padding40 fix">

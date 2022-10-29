@@ -81,7 +81,7 @@ site_header();
                              <div class="properties__img overlay1">
                                  <a href="#"><img 
                                  src="assets/img/profile/profile_<?php echo $count++?>.png" 
-                                 alt="" width="180"  height ="180px" style="object-fit=cover;"> </a>
+                                 alt="" width="180"  height ="180px" style="object-fit:cover;"> </a>
                              </div>
                              <div class="properties__caption">
                                  <p>User Experience</p>

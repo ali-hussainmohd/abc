@@ -1,6 +1,6 @@
 <?php
 
-    $to = "rockybd1995@gmail.com";
+/*$to = "rockybd1995@gmail.com";
     $from = $_REQUEST['email'];
     $name = $_REQUEST['name'];
     $subject = $_REQUEST['subject'];
@@ -32,6 +32,36 @@
 	$body .= "</tbody></table>";
 	$body .= "</body></html>";
 
-    $send = mail($to, $subject, $body, $headers);
+    $send = mail($to, $subject, $body, $headers);*/
 
-?>
+
+header_rel();
+
+try {
+	$con =  connection();
+
+
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (isset($_SESSION['uni_id'])) {
+			$userID = $_SESSION['uni_id'];
+
+			if (isset($_POST['messageOptions'])) {
+				$messOption = $_POST['messageOptions'];
+				$message = $_POST['message'];
+				$__name = $_POST['name'];
+				$_email = $_POST['email'];
+				$__subject = $_POST['subject'];
+
+
+				$sql = "INSERT INTO `comment`(`student_id`, `student_name`, `type`, `msg`, `date`)
+				VALUES ('".$userID."','".$__name."','".$messOption."','".$message."','". date("Y-m-d")."')";
+
+				$con->query($sql); 
+
+				$con->close();
+			}
+		}
+	}
+} catch (Exception $exsp) {
+	die();
+}
