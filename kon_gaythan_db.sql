@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2022 at 12:09 PM
+-- Generation Time: Oct 30, 2022 at 10:55 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -59,8 +59,20 @@ CREATE TABLE `chat` (
   `recevied` varchar(255) NOT NULL,
   `sender` varchar(255) NOT NULL,
   `msg` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `date` date NOT NULL
+  `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `chat`
+--
+
+INSERT INTO `chat` (`id`, `vol_id`, `vol_name`, `student_id`, `std_name`, `recevied`, `sender`, `msg`, `date`) VALUES
+(12, 3, 'Shada waleed', 2020100, 'marwa', 'Shada waleed', 'marwa', 'good moring my teacher ', '2022-10-30 08:15:38'),
+(13, 3, 'Shada waleed', 2020100, 'marwa', 'Shada waleed', 'marwa', 'good moring', '2022-10-30 09:00:35'),
+(14, 3, 'Shada waleed', 2020100, 'marwa', 'marwa', 'Shada waleed', 'hi , student', '2022-10-30 09:00:54'),
+(18, 3, 'Shada waleed', 2020100, 'marwa', 'Shada waleed', 'marwa', 'we will start today ? ', '2022-10-30 10:24:10'),
+(28, 3, 'marwa', 2020100, 'marwa', 'marwa', 'Shada waleed', 'how are you today ? ', '2022-10-30 10:32:39'),
+(29, 3, 'Shada waleed', 2020100, 'marwa', 'marwa', 'Shada waleed', 'are you ready ? ', '2022-10-30 10:38:08');
 
 -- --------------------------------------------------------
 
@@ -108,7 +120,8 @@ INSERT INTO `request` (`id`, `vol_id`, `vol_name`, `student_id`, `request_date`,
 (13, 5, 'Noora Ahmed', 2020100, '2022-10-27', 'pending'),
 (14, 4, 'sara Ali', 2020100, '2022-10-27', 'pending'),
 (15, 3, 'Shada waleed', 2020100, '2022-10-27', 'accept'),
-(16, 1, 'Marwa Moh\'d', 2020100, '2022-10-27', 'pending');
+(16, 1, 'Marwa Moh\'d', 2020100, '2022-10-27', 'pending'),
+(19, 1, 'Marwa Moh\'d', 2020400, '2022-10-29', 'accept');
 
 -- --------------------------------------------------------
 
@@ -119,6 +132,7 @@ INSERT INTO `request` (`id`, `vol_id`, `vol_name`, `student_id`, `request_date`,
 CREATE TABLE `student` (
   `st_id` int(10) NOT NULL,
   `uni_id` int(11) NOT NULL,
+  `std_name` varchar(255) CHARACTER SET ucs2 COLLATE ucs2_unicode_ci NOT NULL,
   `pass` varchar(255) NOT NULL,
   `college` varchar(50) NOT NULL,
   `major` varchar(50) NOT NULL,
@@ -129,11 +143,11 @@ CREATE TABLE `student` (
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`st_id`, `uni_id`, `pass`, `college`, `major`, `email`) VALUES
-(3, 2020100, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa@gmail.com'),
-(4, 2020200, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa2@gmail.com'),
-(5, 2020300, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa3@gmail.com'),
-(6, 2020400, 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa4@gmail.com');
+INSERT INTO `student` (`st_id`, `uni_id`, `std_name`, `pass`, `college`, `major`, `email`) VALUES
+(3, 2020100, 'marwa', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa@gmail.com'),
+(4, 2020200, 'sara', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa2@gmail.com'),
+(5, 2020300, 'mai', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa3@gmail.com'),
+(6, 2020400, 'reem', 'e10adc3949ba59abbe56e057f20f883e', 'it', 'ce', 'marwa4@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -186,7 +200,7 @@ CREATE TABLE `voulnteer` (
 INSERT INTO `voulnteer` (`vol_id`, `uni_id`, `vol_name`, `pass`, `Email`, `college`, `yearOFcollage`, `major`, `subject`, `Timing`) VALUES
 (1, 2020100, 'Marwa Moh\'d', 'e10adc3949ba59abbe56e057f20f883e', 'marwa@gmail.com', 'Information Technology', 'Sophomore', 'Computer Science', 'Java, math', '4pm to 6pm'),
 (2, 2020200, 'reem Khalad', 'e10adc3949ba59abbe56e057f20f883e', 'reem@gmail.com', 'Information Technology', 'Junior', 'Computer Science', 'web design, PHP ', '12pm to 2pm'),
-(3, 2020300, 'Shada waleed', 'e10adc3949ba59abbe56e057f20f883e', 'Shada@gmail.com', 'Information Technology', 'Junior', 'Computer Science', 'English', '1pm to 3pm'),
+(3, 2020300, 'Shada waleed', 'e10adc3949ba59abbe56e057f20f883e', 'Shada2@gmail.com', 'Information Technology', 'Junior', 'Computer Science', 'English', '1pm to 3pm'),
 (4, 2020400, 'sara Ali', 'e10adc3949ba59abbe56e057f20f883e', 'sara@gmail.com', 'Information Technology', 'Senior', 'Computer Science', 'math algebra, calculus', '8am to 10am'),
 (5, 2020121, 'Noora Ahmed', 'e10adc3949ba59abbe56e057f20f883e', 'Noora@gmail.com', 'Information Technology', 'Sophomore', 'Computer Science', 'Python, English', '10am to 12am'),
 (6, 2021125, 'maryam sameer Ahmed', '14e1b600b1fd579f47433b88e8d85291', 'maryam_25@gmail.com', 'Information Technology', 'junior', 'Computer Science', 'Arabic , English ', '6pm to 8pm');
@@ -222,8 +236,8 @@ ALTER TABLE `comment`
 --
 ALTER TABLE `request`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `vol_id` (`vol_id`),
-  ADD KEY `request_student` (`student_id`);
+  ADD KEY `request_student` (`student_id`),
+  ADD KEY `vol_id` (`vol_id`) USING BTREE;
 
 --
 -- Indexes for table `student`
@@ -260,7 +274,7 @@ ALTER TABLE `book`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -272,7 +286,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `student`
