@@ -128,7 +128,7 @@ $conn->close();
                         <?php  
                 
                 $conn = connection();
-                $id_student=$_SESSION["uni_id"];
+                $id_student=$_SESSION["voulnteer_id"];
                 $sql = "SELECT * FROM request 
                 RIGHT JOIN student ON request.student_id = student.uni_id
                 where request.vol_id = '{$_SESSION["vol_id_db"]}'";
@@ -170,7 +170,7 @@ $conn->close();
                             <td>                        
                                 <form action="" method="POST">
                                     <button class="btn" 
-                                            value="<?php echo  "vol_" . $row['vol_id'] ?>" 
+                                            value="<?php echo  "vol_" . $row['student_id'] . "_" . $row["std_name"] ?>" 
                                             type="submit" 
                                             name="book_delete_btn"
                                             >
@@ -178,7 +178,29 @@ $conn->close();
                                     </button>
                                 </form>
                             </td>
-                            <?php } else 
+                            <?php } else if($row["status"] == "pending"){ ?>
+                                <td> 
+
+                                        <form action="" method="POST">
+                                        <button class="btn" 
+                                                value="<?php echo  "vol_" . $row['student_id'] . "_" . $row["std_name"] ?>" 
+                                                type="submit" 
+                                                name="accept_btn"
+                                                >
+                                        <i class="fas fa-thumbs-up"></i> Accept
+                                        </button>
+                                        <button class="btn" 
+                                            value="<?php echo  "vol_" . $row['student_id'] . "_" . $row["std_name"] ?>" 
+                                            type="submit" 
+                                            name="reject_btn"
+                                            >
+                                            <i class="fas fa-thumbs-down"></i> Reject
+                                        </button>
+                                        </form>
+                                        </td>
+                            <?php
+                            }
+                            else
                             { ?>
                                     <td> 
                                     <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
@@ -348,9 +370,33 @@ $conn->close();
                                                                                                
                 //$result = $conn->query($sql);
                 //echo var_dump($data) . "<br>";
-                echo $sql;
+                //echo $sql;
                 if ($conn->query($sql) === TRUE) {
                     echo '<script> alert("Order '.$str_arr[1].' created successfully")</script>';
+                    echo "<meta http-equiv='refresh' content='0'>";
+                  } else {
+                    echo '<script> alert("Error:  '. $sql.' ")</script>';
+                  }
+                  $conn->close();
+            }else if(isset($_POST['accept_btn'])){
+                $conn = connection(); 
+                $data = explode ("_", $_POST['accept_btn']);   
+                $sql = "UPDATE request set status = 'accept' where student_id = '{$data[1]}' "; 
+
+                if ($conn->query($sql) === TRUE) {
+                   
+                    echo "<meta http-equiv='refresh' content='0'>";
+                  } else {
+                    echo '<script> alert("Error:  '. $sql.' ")</script>';
+                  }
+                  $conn->close();
+
+            }else if(isset($_POST['reject_btn'])){
+                $conn = connection();
+                $data = explode ("_", $_POST['reject_btn']);   
+                $sql = "UPDATE request set status = 'reject' where student_id = '{$data[1]}' "; 
+                if ($conn->query($sql) === TRUE) {
+                   
                     echo "<meta http-equiv='refresh' content='0'>";
                   } else {
                     echo '<script> alert("Error:  '. $sql.' ")</script>';
