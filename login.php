@@ -39,10 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($count == 1) {
         ///////////////////// 
         if ($option == "student") {
+            $_SESSION["name"] = $row['std_name'];
             $_SESSION["uni_id"] = $username;
             header('Location: courses.php');
 
         } else if ($option == "voulnteer") {
+            $_SESSION["voulnteer_name"] = $row['vol_name'];
             $_SESSION['voulnteer_id'] = $username;
             header('Location: voluntary_profile.php');
         } else {

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require ("site_part/template.php");
 require ("functions/function.php");
 header_rel();

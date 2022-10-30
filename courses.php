@@ -34,6 +34,11 @@ site_header();
                 </div>
             </div>
         </section>
+        <div class="container">
+        <div class="col-xl-12 mt-4">
+            <h1>Hello  <?php echo $_SESSION["name"] ?></h1>
+        </div>
+    </div>
         <!-- Courses area start -->
         <div class="courses-area section-padding40 fix">
             <div class="container">
@@ -81,7 +86,7 @@ site_header();
                              <div class="properties__img overlay1">
                                  <a href="#"><img 
                                  src="assets/img/profile/profile_<?php echo $count++?>.png" 
-                                 alt="" width="180"  height ="180px" style="object-fit:cover;"> </a>
+                                 alt="" width="180"  height ="180px" style="object-fit=cover;"> </a>
                              </div>
                              <div class="properties__caption">
                                  <p>User Experience</p>
@@ -146,7 +151,42 @@ site_header();
                         echo '<script> alert("Error:  '. $conn->error.' ")</script>';
                       }
                     
+                }else if(isset($_POST['send_btn'])){
+                     
+                    $data=array( $_SESSION["uni_id"],$_SESSION["name"],date("Y-m-d h:i:sa"));
+                    $sql = "insert INTO chat (vol_id,vol_name, student_id, std_name, recevied, sender, msg, date  ) 
+                            VALUES ( '{$_SESSION['chat_to'][1]}','{$_SESSION['chat_to'][2]}',
+                                                                 '{$data[0]}',
+                                                                 '{$data[1]}',
+                                                                 '{$_SESSION['chat_to'][2]}',
+                                                                 '{$data[1]}',
+                                                                 '{$_POST['chat_msg']}',
+                                                                 '{$data[2]}')";
+                                                                                                   
+                    //$result = $conn->query($sql);
+                    //echo var_dump($data) . "<br>";
+                    if ($conn->query($sql) === TRUE) {
+                        echo '<script> alert("Order '.$str_arr[1].' created successfully")</script>';
+                        echo "<meta http-equiv='refresh' content='0'>";
+                      } else {
+                        echo '<script> alert("Error:  '. $sql.' ")</script>';
+                      }
+                }else if(isset($_POST['chatTOvol_btn'])){
+                    //save voluntary name and id in array to call it later
+                    $_SESSION['chat_to']= explode ("_", $_POST['chatTOvol_btn']);  
+                    /*
+                    $chat_to= explode ("_", $_POST['chatTOvol_btn']);
+                    $_SESSION['chat_to_id']=$chat_to[1];
+                    $_SESSION['chat_to_name']=$chat_to[2];
+                      
+                    */ 
+                    //onclick="chatHiddeShow()"
+                    echo '<script type="text/javascript">
+                    
+                    alert("Execute Javascript Code");
+                    </script>;';
                 }
+
                 $conn->close();
                 //////
                 
@@ -186,13 +226,20 @@ site_header();
                             <td><?php echo $row["request_date"];?></td>
                             <td><?php echo $row["vol_name"];?></td>
                             <td><?php echo $row["status"];?></td> 
-                            <?php if($row["status"] == "accept")
+                            <?php 
+                            //////////////////////////////// Depende on status button///////////////////////////////
+                            if($row["status"] == "accept")
                             {
                                 ?>
                             <td>
                            
                                 <form action="" method="POST">
-                                    <button class="btn" value="<?php //echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn">
+                                    <button class="btn" 
+                                            value="<?php echo  "vol_" . $row['vol_id'] . "_" . $row["vol_name"] ?>" 
+                                            type="submit" 
+                                            name="chatTOvol_btn"
+                                            
+                                            >
                                     <i class="fas fa-comment-alt"></i> Chat
                                     </button>
                                 </form>
@@ -202,7 +249,11 @@ site_header();
                                 ?>
                             <td>                        
                                 <form action="" method="POST">
-                                    <button class="btn" value="<?php //echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn">
+                                    <button class="btn" 
+                                            value="<?php echo  "vol_" . $row['vol_id'] ?>" 
+                                            type="submit" 
+                                            name="book_delete_btn"
+                                            >
                                     <i class="fa fa-trash"></i> Remove
                                     </button>
                                 </form>
@@ -212,7 +263,10 @@ site_header();
                                     <td> 
                                     <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
                                     </td>        
-                                <?php } //else ?>
+                                <?php } //else
+                                
+                                //////////////////////////////// Depende on status button///////////////////////////////
+                                ?>
                         </tr>
 
 
@@ -229,7 +283,8 @@ site_header();
  
               
                 </div>
-                <section style="background-color: #eee;">
+
+                <section class="chat2vol " style="background-color: #eee;">
   <div class="container py-5">
 
     <div class="row d-flex justify-content-center">
@@ -237,118 +292,89 @@ site_header();
 
         <div class="card" id="chat2">
           <div class="card-header d-flex justify-content-between align-items-center p-3">
-            <h5 class="mb-0">Chat</h5>
+            <h5 class="mb-0"><?php echo "Chat with \"{$_SESSION['chat_to'][2]}\""  ?></h5>
             <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
               App</button>
           </div>
+          <?php 
+                $conn = connection();
+                $sql = "SELECT * FROM chat ";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                // output data of each row
+                //$count=1;
+                
+                     
+          
+          ?>
           <div class="card-body" style="position: relative; height: 400px; overflow-y:scroll;">
+                    <!-- chat student -->
+                    <?php
+                        while($row = $result->fetch_assoc()) {
 
-            <div class="d-flex flex-row justify-content-start">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-              <div>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Hi</p>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">How are you ...???
-                </p>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">What are you doing
-                  tomorrow? Can we come up a bar?</p>
-                <p class="small ms-3 mb-3 rounded-3 text-muted">23:58</p>
-              </div>
-            </div>
+                            if($row['sender']==$_SESSION["name"]){
+                        ?>
+                    <div class="d-flex flex-row justify-content-start">
+                    <img src="assets/img/profile/student_chat.png" 
+                        alt="avatar 1" style="width: 45px; height: 100%;">
+                    <div>
+                        
+                        <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;"><?php  echo $row['msg'] ?></p>
+                        
 
-            <div class="divider d-flex align-items-center mb-4">
-              <p class="text-center mx-3 mb-0" style="color: #a2aab7;">Today</p>
-            </div>
+                        <p class="small ms-3 mb-3 rounded-3 text-muted"><?php  echo date("h:i:sa",strtotime( $row['date']));  ?></p>
+                    </div>
+                    </div>
+                    <!-- end chat student -->
+                    <?php 
+                            }else if($row['sender']==$_SESSION['chat_to'][2]){
 
-            <div class="d-flex flex-row justify-content-end mb-4 pt-1">
-              <div>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Hiii, I'm good.</p>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">How are you doing?</p>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Long time no see! Tomorrow
-                  office. will
-                  be free on sunday.</p>
-                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:06</p>
-              </div>
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-            </div>
+                    /*<div class="divider d-flex align-items-center mb-4">
+                    <p class="text-center mx-3 mb-0" style="color: #a2aab7;">Today</p>
+                    </div>*/
 
-            <div class="d-flex flex-row justify-content-start mb-4">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-              <div>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Okay</p>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">We will go on
-                  Sunday?</p>
-                <p class="small ms-3 mb-3 rounded-3 text-muted">00:07</p>
-              </div>
-            </div>
+                            
+                    ?>
+                    
+                    <!-- chat voluntary -->      
+                    <div class="d-flex flex-row justify-content-end mb-4 pt-1">
+                    <div>
+                        <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary"><?php  echo $row['msg'] ?></p>
+                       
+                        <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end"><?php  echo date("h:i:sa",strtotime( $row['date']));  ?></p>
+                    </div>
+                    <img src="assets/img/profile/voluntary_chat.png"
+                        alt="avatar 1" style="width: 45px; height: 100%;">
+                    </div>
+                    <!-- end chat voluntary -->       
+                            <?php
+                       }//else if($row['sender']==$_SESSION['chat_to'][2]){
+                    
+                    }//while 
 
-            <div class="d-flex flex-row justify-content-end mb-4">
-              <div>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">That's awesome!</p>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">I will meet you Sandon Square
-                  sharp at
-                  10 AM</p>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Is that okay?</p>
-                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:09</p>
-              </div>
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-            </div>
+                    }else {
+                        echo '<p class="text-center mx-3 mb-0" style="color: #a2aab7;">no chat start</p>';
+                    }
+                            ?>
 
-            <div class="d-flex flex-row justify-content-start mb-4">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-              <div>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Okay i will meet
-                  you on
-                  Sandon Square</p>
-                <p class="small ms-3 mb-3 rounded-3 text-muted">00:11</p>
-              </div>
-            </div>
-
-            <div class="d-flex flex-row justify-content-end mb-4">
-              <div>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Do you have pictures of Matley
-                  Marriage?</p>
-                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:11</p>
-              </div>
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-            </div>
-
-            <div class="d-flex flex-row justify-content-start mb-4">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-              <div>
-                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Sorry I don't
-                  have. i
-                  changed my phone.</p>
-                <p class="small ms-3 mb-3 rounded-3 text-muted">00:13</p>
-              </div>
-            </div>
-
-            <div class="d-flex flex-row justify-content-end">
-              <div>
-                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Okay then see you on sunday!!
-                </p>
-                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:15</p>
-              </div>
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                alt="avatar 1" style="width: 45px; height: 100%;">
-            </div>
-
-          </div>
+          </div><form method="post" action="">
           <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+            
+                 <img src="assets/img/profile/student_chat.png"
               alt="avatar 3" style="width: 40px; height: 100%;">
-            <input type="text" class="form-control form-control-lg" id="exampleFormControlInput1"
-              placeholder="Type message">
-            <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
-            <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-            <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
-          </div>
+             
+            <input type="text" 
+                   class="form-control form-control-lg" 
+                   id="exampleFormControlInput1"
+                   placeholder="Type message"
+                   name="chat_msg"
+              >
+                
+                    <button type="submit" name="send_btn" class="text-muted fa" >&#xf1d8;</button>
+               
+            
+          </div> </form>
         </div>
 
       </div>
@@ -356,7 +382,13 @@ site_header();
 
   </div>
 </section>
-
+<script>
+    function chatHiddeShow() {
+        var element = document.querySelector(".chat2vol");
+        element.classList.remove("d-none");
+        //console.log("hello");
+            }
+</script>
 
 
 

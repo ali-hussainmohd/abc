@@ -1,4 +1,5 @@
 <?php
+session_start();
 require("site_part/template.php");
 require("functions/function.php");
 header_rel();
@@ -96,9 +97,7 @@ site_header();
                                                 </div>
                                                 <p><span>(4.5)</span> based on 120</p>
                                             </div>
-                                            <div class="price">
-                                                <span><?php echo $row["book_price"]; ?></span>
-                                            </div>
+
                                         </div>
                                         <a href="#" class="border-btn border-btn2">Find out more</a>
                                     </div>
