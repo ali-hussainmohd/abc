@@ -1,5 +1,6 @@
 <?php
-
+session_start();
+require("functions/function.php");
 /*$to = "rockybd1995@gmail.com";
     $from = $_REQUEST['email'];
     $name = $_REQUEST['name'];
@@ -35,20 +36,29 @@
     $send = mail($to, $subject, $body, $headers);*/
 
 
-header_rel();
 
-try {
+
+
 	$con =  connection();
 
+	
 
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		if (isset($_SESSION['uni_id'])) {
-			$userID = $_SESSION['uni_id'];
 
-			if (isset($_POST['messageOptions'])) {
+			if (isset($_POST['comment_send_btn'])) {
 				$messOption = $_POST['messageOptions'];
 				$message = $_POST['message'];
-				$__name = $_POST['name'];
+
+				if(isset($_SESSION["name"])){
+					$__name = $_SESSION["name"];
+					$userID= $_SESSION["uni_id"];
+				}
+				
+				else{
+					$__name = $_SESSION["voulnteer_name"];
+					$userID= $_SESSION["voulnteer_id"];
+				}
+				
+
 				$_email = $_POST['email'];
 				$__subject = $_POST['subject'];
 
@@ -56,12 +66,16 @@ try {
 				$sql = "INSERT INTO `comment`(`student_id`, `student_name`, `type`, `msg`, `date`)
 				VALUES ('".$userID."','".$__name."','".$messOption."','".$message."','". date("Y-m-d")."')";
 
-				$con->query($sql); 
+				 
+				if (mysqli_query($con, $sql)) {
 
+					echo "<script> alert('{$data[1]} {$__name}  add comment successfully.');</script>";
+						//refresh page
+					  //echo "<meta http-equiv='refresh' content='0'>";
+					  header('Location: comment.php');
+				} else {
+					echo "Error: " . $sql . "<br>" . mysqli_error($con);
+				}
 				$con->close();
 			}
-		}
-	}
-} catch (Exception $exsp) {
-	die();
-}
+

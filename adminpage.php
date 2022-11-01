@@ -49,7 +49,7 @@ else
                 <!-- Courses area start -->
                 <div class="container">
                 <div class="col-xl-12 mt-4">
-                  <h1>Hello  <?php echo $_SESSION["name"]?></h1>
+                  <h1>Hello  <?php echo $_SESSION["adminname"]?></h1>
                 </div>
                 </div>
         <div class="courses-area section-padding40 fix">
@@ -116,8 +116,13 @@ else
             ?>
           </tbody>
                     </table>
+                    <!---<button class="btn" 
+                      value="<?php //echo  $row['book_id'] . "_" . $row['book_name'] ?>" 
+                      type="submit" 
+                      name="book_delete_btn">
+                      <i class="fa fa-plus"></i> Add</button>
                         </div>
-                    </div>
+                    </div>-->
 
 
             <div class="courses-area section-padding40 fix">
@@ -174,7 +179,7 @@ else
              <?php 
               }//while
 ?>
-              <button class="btn" value="<?php echo  $row['book_id'] . "_" . $row['book_name'] ?>" type="submit" name="book_delete_btn"><i class="fa fa-trash"></i> Add</button>
+
                     
             <?php
             }//if
@@ -187,12 +192,167 @@ else
 
  </tbody>
               </table>
+              <button class="btn" 
+                      value="<?php echo  $row['book_id'] . "_" . $row['book_name'] ?>" 
+                      type="submit" 
+                      name="book_add_btn"
+                      onclick="location.href = 'book_voluntary.php';">
+                      
+                      <i class="fa fa-plus"></i> Add</button>
                   </div>
               </div>
 
 
             </div>
+
+            
+<!------------------------------------------------------  requst table   ------------------------------------------------------------>
+
+<div class="container">
+                    <h2>Student Requst</h2>
+                               
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Voluntary</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php  
+                
+                $conn = connection();
+               
+                $sql = "SELECT * FROM request RIGHT JOIN student ON request.student_id = student.uni_id
+                where id IS NOT NULL " ;
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                // output data of each row
+                $count=1;
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+                    
+                    ?>
+                        <tr>
+                            <td><?php echo $count++?></td>
+                            <td><?php echo $row["request_date"];?></td>
+                            <td><?php echo $row["vol_name"];?></td>
+                            <td><?php echo $row["std_name"];?></td>
+                            <td><?php echo $row["status"];?></td> 
+                            <?php 
+                            
+                                ?>
+                            
+                            <td>                        
+                                <form action="" method="POST">
+                                    <button class="btn" 
+                                            value="<?php echo  "requst_"  . $row["id"] ?>" 
+                                            type="submit" 
+                                            name="requst_delete_btn"
+                                            >
+                                    <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                </form>
+                            </td>
+                          
+                          
+                        </tr>
+
+
+                        <?php }//while
+                    }//if ($result->num_rows > 0)
+                    ?>
+
+                        </tbody>
+                    </table>
+                    </div>
  
+                    
+  
+ 
+              
+                </div>
+
+<!------------------------------------------------------  end requst table   ------------------------------------------------------------>
+
+<div class="container">
+                    <h2>Student comment</h2>
+                               
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Student id</th>
+                            <th>Student</th>
+                            <th>type</th>
+                            <th>msg</th>
+                            <th>Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php  
+                
+                $conn = connection();
+               
+                $sql = "SELECT * FROM comment " ;
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                // output data of each row
+                $count=1;
+                while($row = $result->fetch_assoc()) {
+                    //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+                    
+                    ?>
+                        <tr>
+                            <td><?php echo $count++?></td>
+                            <td><?php echo $row["date"];?></td>
+                            <td><?php echo $row["student_id"];?></td>
+                            <td><?php echo $row["student_name"];?></td>
+                            <td><?php echo $row["type"];?></td> 
+                            <td><?php echo $row["msg"];?></td> 
+                            
+                            <?php 
+                            
+                                ?>
+                            
+                            <td>                        
+                                <form action="" method="POST">
+                                    <button class="btn" 
+                                            value="<?php echo  "comment_"  . $row["id"] ?>" 
+                                            type="submit" 
+                                            name="comment_delete_btn"
+                                            >
+                                    <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                </form>
+                            </td>
+                          
+                          
+                        </tr>
+
+
+                        <?php }//while
+                    }//if ($result->num_rows > 0)
+                    ?>
+
+                        </tbody>
+                    </table>
+                    </div>
+ 
+                    
+  
+ 
+              
+                </div>
 
             </main>
    
@@ -213,6 +373,7 @@ else
           echo "Error: " . $sql . "<br>" . mysqli_error($con);
       }
         mysqli_close($conn);
+
       }else if(isset($_POST["book_delete_btn"])){
         $data=explode("_", $_POST["book_delete_btn"]);
         $conn = connection();
@@ -228,7 +389,38 @@ else
           echo "Error: " . $sql . "<br>" . mysqli_error($con);
       }
         mysqli_close($conn);
+   }else if (isset($_POST["requst_delete_btn"])){
+        $data=explode("_", $_POST["requst_delete_btn"]);
+        $conn = connection();
+        $sql = "DELETE  FROM request where id = '{$data[1]}' ";
+
+        if (mysqli_query($conn, $sql)) {
+
+          echo "<script> alert('".$data[1]."  Deleted successfully.');</script>";
+              //refresh page
+            echo "<meta http-equiv='refresh' content='0'>";
+      } else {
+          echo "Error: " . $sql . "<br>" . mysqli_error($con);
+      }
+        mysqli_close($conn);
+
+
+   }else if (isset($_POST["comment_delete_btn"])){
+    $data=explode("_", $_POST["comment_delete_btn"]);
+        $conn = connection();
+        $sql = "DELETE  FROM comment where id = '{$data[1]}' ";
+
+        if (mysqli_query($conn, $sql)) {
+
+          echo "<script> alert('".$data[1]."  Deleted successfully.');</script>";
+              //refresh page
+            echo "<meta http-equiv='refresh' content='0'>";
+      } else {
+          echo "Error: " . $sql . "<br>" . mysqli_error($con);
+      }
+        mysqli_close($conn);
    }
+   
   }//if($_SERVER["REQUEST_METHOD"] == "POST")
 
 }//else 

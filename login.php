@@ -5,7 +5,8 @@ require("functions/function.php");
 header_rel();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    session_unset();
+    //session_destroy();
     $username = $_POST['id'];
     $password = $_POST['password'];
     $option =  $_POST['options'];
@@ -14,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($username == '100100' && $password == '123123') {
         $_SESSION["adminID"] = $username;
-        $_SESSION["name"] = "Admin Mona";
+        $_SESSION["adminname"] = "Admin Mona";
         $_SESSION["adminpassword"] = $password;
         header("Location: adminpage.php");
     }

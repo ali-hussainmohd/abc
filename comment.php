@@ -1,4 +1,5 @@
 <?php
+session_start();
 require("site_part/template.php");
 require("functions/function.php");
 header_rel();
@@ -34,57 +35,99 @@ site_header();
     </section>
     <div class="container">
                 <div class="col-xl-12 mt-4">
-                  <h1>Hello  <?php echo $_SESSION["name"]?></h1>
+                  <h1>  
+                  <?php 
+                  if(isset($_SESSION["name"]))
+                        echo "Hello ". $_SESSION["name"];
+                  else if(isset($_SESSION["voulnteer_name"]))
+                        echo "Hello ". $_SESSION["voulnteer_name"];
+                  ?>
+                  </h1>
                 </div>
                 </div>
     <!--?  Contact Area start  -->
-    <section class="contact-section">
+    <section class="contact-section d-flex justify-content-center">
         <div class="container">
 
-            <div class="row">
+            <div class="row ">
                 <div class="col-12">
                     <h2 class="contact-title">Get in Touch</h2>
                 </div>
 
 
-                <div class="col-lg-12">
-                    <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                <div class="col-lg-12 ">
+                    <form class="form-contact contact_form " 
+                          method="post"
+                          action="contact_process.php"  
+>
+
                         <div class="row">
-                            <div class="col-lg-12">
-                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="messageOptions[]">
-                                    <option selected>Choose...</option>
-                                    <option value="1">complain</option>
-                                    <option value="2">thanks</option>
-                                    <option value="3">Three</option>
+                        <div class="col-12">
+                                <div class="form-group">
+                                    <input class="form-control" 
+                                           name="subject" 
+                                           id="subject" 
+                                           type="text" 
+                                           onfocus="this.placeholder = ''" 
+                                           onblur="this.placeholder = 'Enter Subject'" 
+                                           placeholder="Enter Subject">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" 
+                                           name="email" 
+                                           id="email" 
+                                           type="email" 
+                                           onfocus="this.placeholder = ''" 
+                                           onblur="this.placeholder = 'Enter email address'"
+                                           placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-select" aria-label="Default select example" 
+                                        id="inlineFormCustomSelectPref" 
+                                        name="messageOptions">
+
+                                    <option selected>Choose ....</option>
+                                    <option value="Complain">Complain</option>
+                                    <option value="Thanks">Thanks</option>
+                                    <option value="Suggestion">Suggestion</option>
+
                                 </select>
                             </div>
+
                             <div class="col-12">
                                 <div class="form-group">
-                                    <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
+                                    <textarea class="form-control w-100" 
+                                              name="message" 
+                                              id="message" 
+                                              cols="30" 
+                                              rows="9" 
+                                              onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" 
+                                              placeholder=" Enter Message"></textarea>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
-                                </div>
-                            </div>
+                           
+
+
                         </div>
                         <div class="form-group mt-3">
-                            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                            <button type="submit" 
+                                    class="button button-contactForm boxed-btn"
+                                    name="comment_send_btn"
+                                    
+                                    >
+                                    Send</button>
                         </div>
                     </form>
                 </div>
-
+<script>
+function myFunction() {
+    //onclick="myFunction()"
+  alert("I am an alert box!");
+}
+</script>
 
             </div>
         </div>

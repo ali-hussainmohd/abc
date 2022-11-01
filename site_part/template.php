@@ -1,10 +1,11 @@
 <?php 
+
 //echo "templates" . '<br>';
 
 function site_header(){
-    $nav = site_meun();
-   echo <<<text
-    <header>
+    
+   echo 
+    '<header>
    <!-- Header Start -->
    <div class="header-area header-transparent">
        <div class="main-header ">
@@ -21,8 +22,39 @@ function site_header(){
                            <div class="menu-wrapper d-flex align-items-center justify-content-end">
                                <!-- Main-menu -->
                                <div class="main-menu d-none d-lg-block ">
-                                   {$nav}
-                               </div>
+                                <nav>
+                               <ul id="navigation">                                                                                          
+                                   <li class="active" ><a href="index.php">Home</a></li>
+                                   <li><a href="courses.php">Courses</a></li>
+                                   <li><a href="about.html">About</a></li>
+                                   <li><a href="book.php">Books</a></li>';
+                                   
+                                   if(!isset($_SESSION["adminID"])   )
+                                   {  
+                                       echo 
+                                   '<li>
+                                   <a href="comment.php">Comment</a>
+                                   </li> ';
+                                    }
+
+                           
+                                    echo 
+                                   '<!-- Button -->
+                                   <li class="button-header margin-left "><a href="#" class="btn">Join</a></li>';
+                                    if(isset($_SESSION["adminID"]) or
+                                       isset($_SESSION["name"]) or 
+                                       isset($_SESSION["voulnteer_name"]) or 
+                                       !stripos($_SERVER['REQUEST_URI'], 'index.php')  ){
+                                        echo 
+                                        '<li class="button-header"><a href="logout.php" class="btn btn3">Log out</a></li>';
+                                }else {
+                                   echo  '<li class="button-header"><a href="login.php" class="btn btn3">Log in</a></li>';
+                                }
+
+                                echo '
+                               </ul>
+                           </nav>
+                           </div>
                            </div>
                        </div> 
                        <!-- Mobile Menu -->
@@ -35,19 +67,27 @@ function site_header(){
        </div>
    </div>
    <!-- Header End -->
-</header>
-text;
+</header>';
 }
+
 function site_meun(){
-    return ' <nav>
+    echo ' <nav>
     <ul id="navigation">                                                                                          
         <li class="active" ><a href="index.php">Home</a></li>
         <li><a href="courses.php">Courses</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="book.php">Books</a>
-        </li>
-        <li><a href="comment.php">Comment</a></li>
-        <!-- Button -->
+        <li><a href="book.php">Books</a></li>';
+        
+        if(!isset($_SESSION["adminID"]) and !isset($_SESSION["adminname"]) and !isset($_SESSION["adminpassword"])  )
+        {  
+            echo 
+        '<li>
+        <a href="comment.php">Comment</a>
+        </li> ';
+         }
+
+         echo 
+        '<!-- Button -->
         <li class="button-header margin-left "><a href="#" class="btn">Join</a></li>
         <li class="button-header"><a href="login.php" class="btn btn3">Log in</a></li>
     </ul>
